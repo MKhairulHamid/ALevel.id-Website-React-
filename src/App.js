@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import Home from './Pages/Home';
+import Login from './Pages/LoginPage';
+import NotFound from './Pages/NotFound';
+import Register from './Pages/Register';
+import LearningProgress from './Pages/LearningProgress';
+import LearningResources from './Pages/LearningResources';
+import Footer from './Components/Footer';
+import NavBar from './Components/NavBar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { connect } from 'react-redux';
+import Axios from 'axios';
+import { API_URL } from './support/API_URL'
+
+
+
+class App extends Component {
+
+  componentDidMount() {
+    let username = localStorage.getItem('username')
+    if(username){
+      Axios.get(API_URL +  `/users?username=${username}`)
+      .then((res) =>{
+        this.props.Login(res.data[0])
+      })
+    }
+  }
+
+  render() { 
+    return ( 
+      <div>
+        <NavBar>
+          <Switch>
+            <Route path='/' component={Home} exact />
+            {/* <Route path='/login' component={LoginPage} />
+            <Route path='/register' component={Register} />
+            <Route path='/admin' component={Admin} />
+            <Route path='learning-progress' component={LearningProgress} />
+            <Route path='learning-resources' component={LearningResources} />
+            <Route path='*' component={NotFound} /> */}
+          </Switch>
+        </NavBar>
+      </div>
+     );
+  }
 }
-
-export default App;
+ 
+export default connect(null, { Login }) (App);
