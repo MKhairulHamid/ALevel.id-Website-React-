@@ -1,50 +1,72 @@
-import React, { Component } from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Home from './Pages/Home';
-import Login from './Pages/LoginPage';
+import LoginPage from './Pages/LoginPage';
 import NotFound from './Pages/NotFound';
 import Register from './Pages/Register';
-import LearningProgress from './Pages/LearningProgress';
-import LearningResources from './Pages/LearningResources';
-import Footer from './Components/Footer';
-import NavBar from './Components/NavBar';
+import Admin from './Pages/Admin';
+import LandingPage from './Pages/LandingPages';
+import CoursesPage from './Pages/CoursesPage';
+import CourseDetail from  './Pages/CourseDetail';
+import HeaderBar from './Component/HeaderBar';
+import Footer from './Component/Footer';
+import ManageCourses from './Pages/ManageCourses'
+import { keepLogin  } from './Redux/Actions'
 
-import { connect } from 'react-redux';
-import Axios from 'axios';
-import { API_URL } from './support/API_URL'
 
 
+const App = () => {
 
-class App extends Component {
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    let username = localStorage.getItem('username')
-    if(username){
-      Axios.get(API_URL +  `/users?username=${username}`)
-      .then((res) =>{
-        this.props.Login(res.data[0])
-      })
-    }
-  }
+  useEffect(() => dispatch(keepLogin()), []);
 
-  render() { 
-    return ( 
+
+  return (
       <div>
-        <NavBar>
-          <Switch>
-            <Route path='/' component={Home} exact />
-            {/* <Route path='/login' component={LoginPage} />
-            <Route path='/register' component={Register} />
-            <Route path='/admin' component={Admin} />
-            <Route path='learning-progress' component={LearningProgress} />
-            <Route path='learning-resources' component={LearningResources} />
-            <Route path='*' component={NotFound} /> */}
-          </Switch>
-        </NavBar>
+            <HeaderBar /> 
+                <Switch>       
+                  <Route exact path='/' component={LandingPage} />
+                  <Route path='/home' component={Home} />
+                  <Route path='/courses' component={CoursesPage} />
+                  <Route path='/course-detail/:id' component={CourseDetail} />
+                  <Route path='/login' component={LoginPage} />
+                  <Route path='/register' component={Register} />  
+                  <Route path='/admin' component={Admin} />   
+                  <Route path='/manage-courses' component={ManageCourses} />
+                  <Route component={NotFound} />   
+                </Switch> 
+              <Footer />
       </div>
-     );
-  }
+  )
 }
+      
+
+//     const dispatch = useDispatch();
+
+//     useEffect(() => dispatch(keepLogin()), []);
+    
+//     const user = useSelector(state => state.user)
+
+
+//     if(user.role === "user"){ 
+//       return (    
+//           <UserRouter />
+//         );
+
+//     }if (user.role === "admin"){
+//       return (    
+//           <AdminRouter />
+//       );
+//     }
+      
+//       return (
+//           <NonUserRouter />
+//     )
+// }
  
-export default connect(null, { Login }) (App);
+
+export default App;

@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+
 class Home extends Component {
     state = {  }
     render() { 
         return ( 
-            <h1> This is home </h1>
+                <div>
+                    <h1>
+                        Ini Halaman Home
+                    </h1>
+                </div>
+          
          );
-    }
+    }  
 }
 
-const mapStatetoProps = ({ auth }) => {
+const mapStatetoProps = ({ nama }) => {
     return {
-        username : auth.username,
-        role: auth.role
+        nama : nama      
     }
 }
 

@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import Reducer from './Redux/Reducer'
-import { createStore } from 'redux';
+import * as serviceWorker from './serviceWorker';
+import './index.css';
+import App from './App';
+import Reducer from './Redux/Reducers'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-web-vector-icons/fonts';
 
-const storeReducer = createStore(Reducer)
+
+const storeReducer = createStore(Reducer, {}, applyMiddleware(ReduxThunk) )
 
 ReactDOM.render(
-<Provider>
+<Provider store={storeReducer}>
     <BrowserRouter>
          <App />
     </BrowserRouter>
