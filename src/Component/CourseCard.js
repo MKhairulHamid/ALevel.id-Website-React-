@@ -17,10 +17,10 @@ const CourseCard = (props) => {
                     }
                 </div>
                 <CardBody>
-                    <CardTitle style={{fontWeight: 'bolder', fontSize:'14px', height: '60px'}}> {props.name} </CardTitle>
-                    <Button style={{color: 'orange', fontWeight: 'bolder', fontSize:'14px'}}> {props.subject} </Button>
-                    <CardText style={{fontSize: '16px'}}> Rp. {props.price.toLocaleString()} </CardText>
-
+                    <CardTitle style={{fontWeight: 'bolder', fontSize:'14px'}}> {props.name} </CardTitle>
+                    <CardTitle style={{fontWeight: 'bolder', fontSize:'14px'}}> of {props.subject} </CardTitle>
+                    <CardTitle style={{fontWeight: 'bolder', fontSize:'14px'}}> for {props.program} </CardTitle>
+                    <Button style={{color: 'orange', fontWeight: 'bolder', fontSize:'14px'}}> Rp. {props.price.toLocaleString()} </Button>
                 </CardBody>
             </Card>
         </div>

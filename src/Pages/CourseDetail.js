@@ -4,44 +4,71 @@ import { useParams } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import { fetchCourseById } from '../Redux/Actions'
+import { ProgramDesc } from '../Component/ProgramDescriptions'
 
 const CourseDetail = () => {
 
-    const dispatch = useDispatch();
+    // Get Course Data
 
     let { id } = useParams();
-    
 
-    useEffect(() => dispatch(fetchCourseById(id)), []);
+    const dispatch = useDispatch();
 
-    const course = useSelector(state => state.course) 
+    useEffect(() => dispatch(fetchCourseById(id)), [])
 
-    const coursetoRender = course.courseById
-    console.log(coursetoRender)
-    console.log(typeof(coursetoRender))
+    const courseData = useSelector(state => state.course.courseById)
 
-    console.log(coursetoRender[0].name)
+    console.log(courseData.subject)
 
+    return (
 
-    const renderDetailCourse = () => {
-        
-        
-
-            return(
-                <div> 
-                    <h1> tess </h1>
-                </div>
-            )
-        }
-    
-
-    return(
         <div className='row mr-0'>
-            {renderDetailCourse()}
-            <h1> Haloo </h1>
-        </div>
+            <div style={{ marginLeft: 70, marginTop: 30}} >
+                {
+                    courseData.image
+                    ?
+                    <img src={courseData.image} alt={courseData.name} width='300px' height='220px' />
+                    :
+                    <Loader type="Circles" color='grey' height={80} width={80} />
+                }
+            </div>
+            <div className='col-8 container' style={{ marginTop:20}}>
+                <div className='py-1'>
+                    <h3>
+                        {courseData.name}
+                    </h3>
+                </div>
+                <div className='py-1'>
+                    <h5>
+                       Subject :  {courseData.subject}
+                    </h5>
+                </div>
+                <div className='py-1'>
+                    <h5>
+                       Program : {courseData.program}
+                    </h5>
+                </div>
+                <div className='py-1'>
+                    {
+                        courseData.price
+                        ?
+                        <h5>
+                           Tuition Fee :  Rp.{courseData.price.toLocaleString()}
+                        </h5>
+                        :
+                        null
+                    }
+                </div>
+                <div className='py-1'>
+                    <p>
+                        {ProgramDesc(courseData.program)}
+                    </p>
+                </div>
+                <Button color="primary">Enroll Now</Button>
+            </div>
+            
+        </div> 
     )
-
 }
 
 export default CourseDetail;

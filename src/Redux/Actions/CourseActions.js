@@ -12,6 +12,7 @@ export const fetchCourse = () => {
         dispatch({
             type : FETCH_DATA_START
         })
+
         Axios.get(`${API_URL}/courses/getall`)
         .then((res) => {
             dispatch({
@@ -36,9 +37,10 @@ export const fetchCourseById = (id) => {
         })
         Axios.get(`${API_URL}/courses/getbyid/${id}`)
         .then((res) => {
+            let data = res.data[0]
             dispatch({
                 type : FETCH_DATA_ID_SUCCESS,
-                payload : res.data
+                payload : data
             })
         })
         .catch((err) => {

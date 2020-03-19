@@ -47,9 +47,10 @@ const CoursesPage = () => {
                 <Link to={`/course-detail/${val.id}`} key={val.id}>
                     <CourseCard 
                         name={val.name}
-                        image={val.image}
-                        price={val.price}
                         subject={val.subject}
+                        price={val.price}
+                        program={val.program}
+                        image={val.image}
                     />
                 </Link>
             )
@@ -60,9 +61,10 @@ const CoursesPage = () => {
                     <Link to={`/course-detail/${val.id}`} key={val.id}>
                         <CourseCard 
                             name={val.name}
-                            image={val.image}
-                            price={val.price}
                             subject={val.subject}
+                            price={val.price}
+                            program={val.program}
+                            image={val.image}
                         />
                     </Link>
                 )
