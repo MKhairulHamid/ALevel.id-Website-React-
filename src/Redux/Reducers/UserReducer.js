@@ -19,7 +19,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         case LOGIN : 
             return {
                 id: action.payload.id,
-                firsName : action.payload.firstName,
+                firstName : action.payload.firstName,
                 lastName : action.payload.lastName,
                 email : action.payload.email,
                 address : action.payload.address,

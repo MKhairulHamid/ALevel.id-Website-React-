@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Input } from 'reactstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom'
 import { API_URL } from '../Support/API_URL';
 import { fetchCourse } from '../Redux/Actions';
-
-
 
 
 
@@ -20,7 +18,9 @@ const ManageCourses = () => {
         subject : '',
         price: null,
         program: 'IGCSE',
+        duration: 'Month',
         image: ''
+        
     })
 
     const [formInputEdit, setFormEdit] = useState({
@@ -28,6 +28,7 @@ const ManageCourses = () => {
         subject : '',
         price: null,
         program: 'IGCSE',
+        duration: 'Month',
         image: ''
     })
 
@@ -41,7 +42,6 @@ const ManageCourses = () => {
 
     useEffect(() => dispatch(fetchCourse()), []);
 
-    const user = useSelector(state => state.user)
     const course = useSelector(state => state.course)
 
     // Add Function ======================================
@@ -72,7 +72,8 @@ const ManageCourses = () => {
                     subject : '',
                     price: null,
                     program: 'IGCSE',
-                    image: ''
+                    image: '',
+                    duration: 'Month'
                 })
                 dispatch(fetchCourse())
                 window.location.reload(false)
@@ -105,7 +106,7 @@ const ManageCourses = () => {
 
     const confirmEdit = id => {
 
-        var { name, subject, price, program, image } = formInputEdit
+        var { name, subject, price, program, duration, image } = formInputEdit
 
         var data = {
             id,
@@ -113,9 +114,10 @@ const ManageCourses = () => {
             subject,
             price,
             program,
+            duration,
             image
         }
-
+        console.log(data)
 
         const token = localStorage.getItem('token');
 
@@ -149,8 +151,6 @@ const ManageCourses = () => {
                     'Authorization': `Bearer ${token}`
                 }
             }
-            console.log(headers)
-
             Swal.fire({
                 title: 'Are you sure to delete?',
                 text: "You won't be able to revert this!",
@@ -175,7 +175,6 @@ const ManageCourses = () => {
                 }
               })
               .catch((err) => {
-                  alert('error')
                   console.log(err)
               })
         }
@@ -207,6 +206,13 @@ const ManageCourses = () => {
                             </Input>
                         </td>
                         <td>
+                            <Input type='select' defaultValue={val.duration} name='duration' onMouseMove={handleOnChageEdit} onChange={handleOnChageEdit} >
+                                    <option>Month</option>
+                                    <option>Semester</option>
+                                    <option>Year</option>
+                            </Input>
+                        </td>
+                        <td>
                         <Input defaultValue={val.image} name='image' onMouseMove={handleOnChageEdit} onChange={handleOnChageEdit} />
                         </td>
                         <td>
@@ -229,6 +235,7 @@ const ManageCourses = () => {
                     <td>{val.subject}</td>
                     <td>{val.price}</td>
                     <td>{val.program}</td>
+                    <td>{val.duration}</td>
                     <td> <img src={val.image} alt={val.name} height='160px' width='200px' /> </td>
                     <td>
                         <Button color='success' onClick={() => selectEdit(val.id)}  >
@@ -247,6 +254,8 @@ const ManageCourses = () => {
 
     // Default Return =========================================================
 
+    
+ 
     return (
         <div> 
             <Table>
@@ -257,9 +266,9 @@ const ManageCourses = () => {
                         <th>Subject</th>
                         <th>Price</th>
                         <th>Program</th>
+                        <th>Duration</th>
                         <th>Image</th>
                         <th colSpan='2'>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -279,6 +288,13 @@ const ManageCourses = () => {
                                 <option> A Level </option>
                             </Input>
                         </td>
+                        <td>
+                            <Input type='select'  placeholder='Duration' name='duration' onChange={handleOnChageAdd} >
+                                <option>Month</option>
+                                <option>Semester </option>
+                                <option>Year</option>
+                            </Input>
+                        </td>
                         <td> <Input placeholder='Image' name='image' onChange={handleOnChageAdd} /></td>
                         <td>
                             <Button onClick={addCourse}>
@@ -290,7 +306,6 @@ const ManageCourses = () => {
             </Table>
         </div>
     )
-
 }
 
 export default ManageCourses

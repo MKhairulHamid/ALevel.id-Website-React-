@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 import CourseCard from '../Component/CourseCard';
 import { fetchCourse } from '../Redux/Actions';
 import Loader from 'react-loader-spinner';
@@ -50,6 +51,7 @@ const CoursesPage = () => {
                         subject={val.subject}
                         price={val.price}
                         program={val.program}
+                        duration={val.duration}
                         image={val.image}
                     />
                 </Link>
@@ -64,6 +66,7 @@ const CoursesPage = () => {
                             subject={val.subject}
                             price={val.price}
                             program={val.program}
+                            duration={val.duration}
                             image={val.image}
                         />
                     </Link>
@@ -90,13 +93,14 @@ if(course.loading){
 }
 
     return (
-        <div className='d-flex'>
+        <div className='d-flex' style={{ marginLeft : '100px', marginRight:'100px', marginTop:'50px'}}>
             <div className='col-2'> 
+                <Typography variant="body2" color="textSecondary" component="p">
+                    Select Based On Program
+                </Typography>
                 <Select 
-                    
                     onChange={handleSelect}
-                    options={options} 
-                    
+                    options={options}       
                 />
             </div>
             <div className='col-10'>

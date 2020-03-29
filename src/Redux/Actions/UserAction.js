@@ -1,7 +1,7 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { API_URL } from '../../Support/API_URL';
 import { LOGIN, LOGOUT } from './types'
-import { stringLiteralTypeAnnotation } from '@babel/types';
 
 export const Login = (email, password) => {
     return(dispatch) => {
@@ -10,11 +10,19 @@ export const Login = (email, password) => {
             password
         })
         .then((res) => {
-            localStorage.setItem('token', res.data.token)
-            dispatch({
-                type: LOGIN,
-                payload: res.data
-            })
+            if(res.data.id){
+                localStorage.setItem('token', res.data.token)
+                dispatch({
+                    type: LOGIN,
+                    payload: res.data
+            })}
+            else {
+                Swal.fire({
+                    title: 'Email or Password Invalid',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Try Again',
+                  })
+            }
         })
         .catch((err) => {
             localStorage.removeItem('token')
@@ -57,9 +65,17 @@ export const Register = (data) => {
     return async (dispatch) => {     
         await axios.post(API_URL + '/users/register', data)
             .then((res) => {
-                
-                localStorage.setItem('token', res.data.token)
-                dispatch(keepLogin())
+                if(res.data.token){
+                    localStorage.setItem('token', res.data.token)
+                    dispatch(keepLogin())
+                }
+                else {
+                    Swal.fire({
+                        title: 'Email Already Registered',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Try Again',
+                      })
+                }
             })
             .catch((err) => {
                 console.log(err)

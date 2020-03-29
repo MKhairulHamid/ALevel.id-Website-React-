@@ -25,7 +25,7 @@ export const fetchCourse = () => {
             dispatch({
                 type : FETCH_DATA_FAILED
             })
-            console.log(err)
+            
         })
     }
 }

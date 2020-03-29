@@ -66,10 +66,11 @@ const LoginPage = () => {
     
     if(user.token){
       return(
-        <Redirect to='/home' />
+        <Redirect to='/' />
       )
     }
-      return (
+    return (
+      <div style={{minHeight : '700px'}}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
@@ -123,6 +124,7 @@ const LoginPage = () => {
             </form>
           </div>
         </Container>
+      </div>
       )
 }
 

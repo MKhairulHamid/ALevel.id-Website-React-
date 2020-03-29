@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
+import Swal from 'sweetalert2';
 import { fetchCourseById } from '../Redux/Actions'
 import { ProgramDesc } from '../Component/ProgramDescriptions'
 
@@ -11,18 +12,26 @@ const CourseDetail = () => {
     // Get Course Data
 
     let { id } = useParams();
-
     const dispatch = useDispatch();
-
     useEffect(() => dispatch(fetchCourseById(id)), [])
-
     const courseData = useSelector(state => state.course.courseById)
+    const user = useSelector(state => state.user)
 
-    console.log(courseData.subject)
+    const token = user.token
+
+    const onEnrollmentClick = () =>{
+        if(!token){
+            Swal.fire({
+                title: 'You Need To Login',
+                confirmButtonColor: 'white',
+                confirmButtonText: '<a href="/login"> Login </a>'
+              })
+        }
+    }
 
     return (
 
-        <div className='row mr-0'>
+        <div className='row mr-0' style={{minHeight:'700px', marginTop:'50px', marginRight:'70px', marginLeft:'70px'}}>
             <div style={{ marginLeft: 70, marginTop: 30}} >
                 {
                     courseData.image
@@ -64,7 +73,21 @@ const CourseDetail = () => {
                         {ProgramDesc(courseData.program)}
                     </p>
                 </div>
-                <Button color="primary">Enroll Now</Button>
+                {
+                    user.token?
+                    <Button href={`/enrollmentform/${courseData.id}`} color='primary'>
+                        Enroll Now
+                    </Button>
+                    :
+                    <div>
+                        <p> You Need Login To Enroll This Course</p>
+                        <Button href="/login" color='primary'>
+                            Login
+                        </Button>
+                    </div>
+
+                }
+                    
             </div>
             
         </div> 
